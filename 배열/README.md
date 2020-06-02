@@ -393,3 +393,60 @@ Array* arrayCreate() {
 	return array;
 }
 ```
+
+### 문제점 
+
+> - 위의코드는 유연하게 배열의 길이를 늘리는 것은 좋으나 사용자가 선언만 하고 사용을 하지않았을때 메모리의 누수가 발생한다.
+
+## g.c (변경없음)
+
+## h.c
+
+### ISSUE :  배열선언후 미사용시에 지연된 초기화가 발생한다. 
+
+#### 해결 방안
+
+> - 배열 선언시에는 배열 객체만 만들어주고 반환하고 그 길이를 정해주지않는다. 삽입이나 추가와 같은 유효한 동작이 발생할시에 비로소 그 배열의 INITIAL_SIZE만큼 그 배열의 길이를 잡아주도록 한다. 
+이러한 초기화법을 지연된 초기화 법이라고 한다.
+
+## i.c
+
+### ISSUE : 제네릭 기법을 사용하자.
+
+#### 특이점
+
+> - 출력함수에 함수포인터를 인자로 삽입해 표현하고 싶은 함수의 형식대로 출력하도록 한다.
+```
+const char* toPerson(const void* data) {
+	static char buf[32];
+	const Person* person = (const Person*)data;
+	sprintf(buf, "%s(%d)", person->name, person->age);
+	return (const char*)buf;
+}
+```
+> - 와 같은 표현하고자하는 형식의 함수를 만들고
+
+```
+void arrayDisplay(const Array* array, const char*(*display)(const void*)) {
+	if (array == NULL || display == NULL) {
+		fprintf(stderr, "arrayDisplay: argument is null\n");
+		return;
+	}
+
+	system("cls");
+	for (int i = 0; i < array->size; i++) {
+		if (i < array->count)
+			printf("[%s]", display(array->contents[i]));
+		else
+			printf("[%2c]", ' ');
+	}
+	getchar();
+}
+```
+> - 다음과 같이 display 함수의 인자에 함수포인터를 삽입한다.
+
+```
+		arrayDisplay(arr, toPerson); 
+```
+
+그리고 사용은 위와 같이 호출한다.
