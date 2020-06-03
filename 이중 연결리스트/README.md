@@ -42,4 +42,8 @@ head->prev = head;
 
 ## 0.c
 
-### ISSUE : 
+### ISSUE : 이중연결리스트의 기초 구조 잡기
+
+## 1.c
+
+
