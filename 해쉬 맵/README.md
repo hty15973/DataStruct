@@ -59,13 +59,19 @@ typedef int(*EqualsFn)(void* key1, void* key2);//함수포인터
 
 ## 3.c
 
+#### createNode 함수의 추가
+
+> - 우선 해쉬맵에는 노드가 있어야 한다. 따라서 해당함수를 만들었다.
+
 ### 변경점
+
+
 
 #### hashkey 함수의 추가
 
 #### calculateIndex 함수의 추가
 
-#### createNode 함수의 추가
+
 
 #### equalsKey 함수의 추가
 
